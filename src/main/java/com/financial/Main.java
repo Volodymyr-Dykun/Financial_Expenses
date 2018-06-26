@@ -1,12 +1,9 @@
 package com.financial;
 
-import sun.util.resources.LocaleData;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.DecimalFormat;
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.*;
@@ -27,7 +24,7 @@ public class Main {
         currencyEur = 0.0;
     }
 
-    public static void main(String[] args) throws ParseException {
+    public static void main(String[] args) {
         Main main = new Main();
         main.menuStart();
     }
@@ -44,6 +41,7 @@ public class Main {
          arr[3] - its currency (if it is needed)
          arr[4] and next - its name (if it is needed)
            */
+
             String insert = reader.readLine();
             String[] arr = insert.split(" ");
 
@@ -89,8 +87,26 @@ public class Main {
         }
     }
 
+    private String checkCurrency(String currency) {
+        try {
+            if (ApiUtils.parseCurrentApiJson(currency) != null) {
+                return currency;
+            } else {
+                System.out.println("This currency does not exist. Try again.");
+                checkMenu();
+                return null;
+            }
+
+        } catch (NullPointerException e) {
+            System.out.println("This currency does not exist. Try again.");
+            menuStart();
+            return null;
+        }
+    }
+
     private void menuAdd(String[] arr) {
-        if(arr.length<5) {
+        // check length array (must be 5 or more)
+        if (arr.length < 5) {
             System.out.println("You entered the command incorrectly,  try again!!");
             return;
         }
@@ -98,7 +114,7 @@ public class Main {
         Expense expense = new Expense();
         expense.setDate(checkDate(arr[1]));
         expense.setPrice(Double.parseDouble(arr[2]));
-        expense.setCurrency(arr[3].toUpperCase());
+        expense.setCurrency(checkCurrency(arr[3].toUpperCase()));
 
         // add all words after arr[3] in name
         String name = arr[4];
@@ -106,25 +122,19 @@ public class Main {
             name = name + " " + arr[i];
         }
         expense.setName(name);
-//        if (!ApiUtils.parseCurrentApiJson(arr[3].toUpperCase()).equals(null)) {
-//            add(expense);
-//        } else {
-//
-//        }
-        try {
-            ApiUtils.parseCurrentApiJson(arr[3].toUpperCase());
-            add(expense);
-        } catch (NullPointerException e) {
-            System.out.println("This currency does not exist. Try again.");
-            checkMenu();
-        }
-
+        add(expense);
     }
 
     private void menuList(String[] arr) {
         /*
         * command "list" should consist of one word, so we check this and print list expense
+        * map must have one or more date
         */
+        if (map.size() == 0) {
+            System.out.println("You don't have any more expenses!");
+            System.out.println();
+            checkMenu();
+        }
         list(arr);
 
     }
@@ -159,13 +169,17 @@ public class Main {
         */
         try {
             String insert = reader.readLine();
-            if (insert.toUpperCase().equals("Y")) {
-                menuStart();
-            } else if (insert.toUpperCase().equals("N")) {
-                menuExit();
-            } else {
-                System.out.println("You have entered the wrong answer, try again.");
-                checkMenu();
+            switch (insert.toUpperCase()) {
+                case "Y":
+                    menuStart();
+                    break;
+                case "N":
+                    menuExit();
+                    break;
+                default:
+                    System.out.println("You have entered the wrong answer, try again.");
+                    checkMenu();
+                    break;
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -179,29 +193,25 @@ public class Main {
           * if this date is absent - we add new date with expense
          */
 
-        try {
-            for (Map.Entry<LocalDate, ArrayList<Expense>> entry : map.entrySet()) {
-                if (entry.getKey().equals(expense.getDate())) {
-                    map.get(expense.getDate()).add(expense);
-                    currencyEur = currencyEur + ApiUtils.convertCurrencyToEur(expense.getPrice(), expense.getCurrency());
-                    printMap();
-                    return;
-                }
+        for (Map.Entry<LocalDate, ArrayList<Expense>> entry : map.entrySet()) {
+            if (entry.getKey().equals(expense.getDate())) {
+                map.get(expense.getDate()).add(expense);
+                currencyEur = currencyEur + ApiUtils.convertCurrencyToEur(expense.getPrice(), expense.getCurrency());
+                printMap();
+                return;
             }
-            ArrayList<Expense> list = new ArrayList<>();
-            list.add(expense);
-            map.put(expense.getDate(), list);
-            currencyEur = currencyEur + ApiUtils.convertCurrencyToEur(expense.getPrice(), expense.getCurrency());
-            printMap();
-        } catch (NullPointerException e) {
-            System.out.println("This currency does not exist.");
-            System.out.println("This expense has not been added.");
         }
+        ArrayList<Expense> list = new ArrayList<>();
+        list.add(expense);
+        map.put(expense.getDate(), list);
+        currencyEur = currencyEur + ApiUtils.convertCurrencyToEur(expense.getPrice(), expense.getCurrency());
+        printMap();
+
     }
 
     private void list(String[] arr) {
         if (arr.length == 1) {
-            if (map.size()!=0) {
+            if (map.size() != 0) {
                 printMap();
             } else {
                 System.out.println("Expense list is empty!");
@@ -225,7 +235,7 @@ public class Main {
     }
 
     private void printList(ArrayList<Expense> list) {
-        for(Expense item : list){
+        for (Expense item : list) {
             System.out.println(item.getName() + " " + item.getPrice() + " " + item.getCurrency());
         }
         System.out.println();
@@ -239,26 +249,33 @@ public class Main {
             System.out.println();
             checkMenu();
         }
-
+        int a = 0;
         // if you have entered at least one expense
         for (Map.Entry<LocalDate, ArrayList<Expense>> entry : map.entrySet()) {
             if (entry.getKey().equals(checkDate(date))) {
-
+                a++;
                 for (int i = 0; i < entry.getValue().size(); i++) {
                     currencyEur = currencyEur - ApiUtils.convertCurrencyToEur(entry.getValue().get(i).getPrice(), entry.getValue().get(i).getCurrency());
                 }
-                System.out.println("Map after remote:");
                 map.remove(checkDate(date));
-                printMap();
-                return;
 
+                if (map.size()!=0) {
+                    System.out.println("Map after remote:");
+                    printMap();
+                } else System.out.println("Map after deletion is empty");
+                return;
+            }
+
+            if (a == 0) {
+                System.out.println(date + " is absent in map, try clear other date!");
+                checkMenu();
             }
         }
     }
 
     // after all convertCurrencyToEur we convert currencyEur to the chosen currency
     private void total(String currency) {
-        if (map.size()!=0) {
+        if (map.size() != 0) {
             try {
                 Double coef;
                 if (!currency.equals(ApiUtils.LOCAL_CURRENCY)) {

@@ -2,9 +2,6 @@ package com.financial;
 
 import java.time.LocalDate;
 
-/**
- * Created by Volodymyr Dykun on 21.06.2018.
- */
 public class Expense {
 
     private LocalDate date;
@@ -14,11 +11,12 @@ public class Expense {
 
     public Expense() {
     }
+
     public Expense(String date, Double price, String currency, String name) {
-        this.date     = LocalDate.parse(date);
-        this.price    = price;
+        this.date = LocalDate.parse(date);
+        this.price = price;
         this.currency = currency;
-        this.name     = name;
+        this.name = name;
     }
 
     public String getCurrency() {

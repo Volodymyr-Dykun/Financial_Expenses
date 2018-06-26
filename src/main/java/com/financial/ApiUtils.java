@@ -3,6 +3,7 @@ package com.financial;
 import org.apache.http.client.utils.URIBuilder;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -10,10 +11,6 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Map;
-
-/**
- * Created by Volodymyr Dykun on 22.06.2018.
- */
 
 public class ApiUtils {
 
@@ -26,7 +23,7 @@ public class ApiUtils {
             return "";
         }
         StringBuilder stringBuilder = new StringBuilder();
-            // open connect from URL
+        // open connect from URL
         try (BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()))) {
             String inputLine;
             // read object to StringBuilder
@@ -44,8 +41,9 @@ public class ApiUtils {
             // convert string with Json to JSONObject for next parsing
             JSONObject ApiJsonObject = (JSONObject) JSONValue.parseWithException(parseUrl(buildUrl()));
             Map currencyMap = (Map) ApiJsonObject.get("rates");
-            Double coef = (Double) currencyMap.get(currency.toUpperCase());
-            return coef;
+            if (!currency.toUpperCase().equals(LOCAL_CURRENCY)) {
+                return (Double) currencyMap.get(currency.toUpperCase());
+            } else return 1.0;
 
         } catch (org.json.simple.parser.ParseException e) {
             e.printStackTrace();
@@ -58,22 +56,20 @@ public class ApiUtils {
     }
 
     private static URL buildUrl() throws URISyntaxException, MalformedURLException {
-        String link = LINK+"?"+"access_key="+KEY;
+        String link = LINK + "?" + "access_key=" + KEY;
         URIBuilder b = new URIBuilder(link);
-        URL url = b.build().toURL();
-        return url;
+        return b.build().toURL();
     }
 
-    public static Double convertCurrencyToEur (Double price, String currency) {
+    public static Double convertCurrencyToEur(Double price, String currency) {
         /* this API can not convert USD to PLN (or any other currency)
          * so, we convert all currency to EUR and add to currencyEur
          * coefficient we get with API
          */
         Double coef;
         if (!currency.toUpperCase().equals(LOCAL_CURRENCY)) {
-            coef= parseCurrentApiJson(currency);
-        } else coef=1.0;
-        Double priceEur = price/coef;
-        return priceEur;
+            coef = parseCurrentApiJson(currency);
+        } else coef = 1.0;
+        return price / coef;
     }
 }
