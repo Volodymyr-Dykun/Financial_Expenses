@@ -1,8 +1,10 @@
 #Financial_Expenses
+
 ## Information
 
 ### Project Information
  This project is a personal expenses management console application that allows users to track how much money have they spent.
+ 
 ###If you want to use this project:
 
 1. You have to "clone" on your GitHub or "download" this project;
