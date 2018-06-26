@@ -1,12 +1,11 @@
-#Financial_Expenses
+# Financial_Expenses
 
 ## Information
 
 ### Project Information
  This project is a personal expenses management console application that allows users to track how much money have they spent.
  
-###If you want to use this project:
-
+### If you want to use this project:
 1. You have to "clone" on your GitHub or "download" this project;
 2. If you selected to "download" the project then start your Intellij IDEA and choose the "Import Project" and then choose as "Maven" project else if you selected to "clone" the project choose the "Check out from Version Control" and then choose "GitHub" and and select your repository in which you cloned this project;
 4. Run the project;
