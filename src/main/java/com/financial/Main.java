@@ -1,5 +1,7 @@
 package com.financial;
 
+import sun.util.resources.LocaleData;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -88,6 +90,11 @@ public class Main {
     }
 
     private void menuAdd(String[] arr) {
+        if(arr.length<5) {
+            System.out.println("You entered the command incorrectly,  try again!!");
+            return;
+        }
+
         Expense expense = new Expense();
         expense.setDate(checkDate(arr[1]));
         expense.setPrice(Double.parseDouble(arr[2]));
@@ -99,19 +106,26 @@ public class Main {
             name = name + " " + arr[i];
         }
         expense.setName(name);
-        add(expense);
+//        if (!ApiUtils.parseCurrentApiJson(arr[3].toUpperCase()).equals(null)) {
+//            add(expense);
+//        } else {
+//
+//        }
+        try {
+            ApiUtils.parseCurrentApiJson(arr[3].toUpperCase());
+            add(expense);
+        } catch (NullPointerException e) {
+            System.out.println("This currency does not exist. Try again.");
+            checkMenu();
+        }
+
     }
 
     private void menuList(String[] arr) {
         /*
         * command "list" should consist of one word, so we check this and print list expense
         */
-        if (arr.length == 1) {
-            printMap();
-        } else {
-            System.out.println("The command \"List\" should contain only one word, please, try again!!");
-            menuStart();
-        }
+        list(arr);
 
     }
 
@@ -164,23 +178,45 @@ public class Main {
           * if this date is present - we add to this date new expense
           * if this date is absent - we add new date with expense
          */
-        for (Map.Entry<LocalDate, ArrayList<Expense>> entry : map.entrySet()) {
-            if (entry.getKey().equals(expense.getDate())) {
-                map.get(expense.getDate()).add(expense);
-                currencyEur = currencyEur + ApiUtils.convertCurrencyToEur(expense.getPrice(), expense.getCurrency());
-                printMap();
-                return;
+
+        try {
+            for (Map.Entry<LocalDate, ArrayList<Expense>> entry : map.entrySet()) {
+                if (entry.getKey().equals(expense.getDate())) {
+                    map.get(expense.getDate()).add(expense);
+                    currencyEur = currencyEur + ApiUtils.convertCurrencyToEur(expense.getPrice(), expense.getCurrency());
+                    printMap();
+                    return;
+                }
             }
+            ArrayList<Expense> list = new ArrayList<>();
+            list.add(expense);
+            map.put(expense.getDate(), list);
+            currencyEur = currencyEur + ApiUtils.convertCurrencyToEur(expense.getPrice(), expense.getCurrency());
+            printMap();
+        } catch (NullPointerException e) {
+            System.out.println("This currency does not exist.");
+            System.out.println("This expense has not been added.");
         }
-        ArrayList<Expense> list = new ArrayList<>();
-        list.add(expense);
-        map.put(expense.getDate(), list);
-        currencyEur = currencyEur + ApiUtils.convertCurrencyToEur(expense.getPrice(), expense.getCurrency());
-        printMap();
+    }
+
+    private void list(String[] arr) {
+        if (arr.length == 1) {
+            if (map.size()!=0) {
+                printMap();
+            } else {
+                System.out.println("Expense list is empty!");
+                System.out.println("Add Expenses first");
+                checkMenu();
+            }
+
+        } else {
+            System.out.println("The command \"List\" should contain only one word, please, try again!!");
+            menuStart();
+        }
     }
 
     private void printMap() {
-        System.out.println("New expense:");
+
         for (Map.Entry<LocalDate, ArrayList<Expense>> entry : map.entrySet()) {
             System.out.println(entry.getKey());
             printList(entry.getValue());
@@ -222,18 +258,24 @@ public class Main {
 
     // after all convertCurrencyToEur we convert currencyEur to the chosen currency
     private void total(String currency) {
-        try {
-            Double coef;
-            if (!currency.equals(ApiUtils.LOCAL_CURRENCY)) {
-                coef = ApiUtils.parseCurrentApiJson(currency);
-            } else coef = 1.0;
+        if (map.size()!=0) {
+            try {
+                Double coef;
+                if (!currency.equals(ApiUtils.LOCAL_CURRENCY)) {
+                    coef = ApiUtils.parseCurrentApiJson(currency);
+                } else coef = 1.0;
 
-            Double total = currencyEur * coef;
-            String formattedTotal = new DecimalFormat("#0.00").format(total);
-            System.out.println(formattedTotal + " " + currency);
-        } catch (NullPointerException e) {
-            System.out.println("No currency with this name was found, please, try again!!");
-            menuStart();
+                Double total = currencyEur * coef;
+                String formattedTotal = new DecimalFormat("#0.00").format(total);
+                System.out.println(formattedTotal + " " + currency);
+            } catch (NullPointerException e) {
+                System.out.println("No currency with this name was found, please, try again!!");
+                menuStart();
+            }
+        } else {
+            System.out.println("Expense list is empty!");
+            System.out.println("Add Expenses first");
+            checkMenu();
         }
 
     }
