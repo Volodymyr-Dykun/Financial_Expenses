@@ -1,4 +1,4 @@
-package com.financial;
+package com.financial.expense;
 
 import java.time.LocalDate;
 
