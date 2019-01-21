@@ -10,7 +10,6 @@ public class MapService {
 
     public static Map<String, ArrayList<Expense>> map;
     private JsonService jsonService;
-    public double currencyEur;
 
     public MapService()  {
         try {
@@ -18,8 +17,7 @@ public class MapService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        map = jsonService.map;
-        currencyEur = 0.0;
+        map = JsonService.map;
     }
 
     //this method checks for the date in the array and edd expense
@@ -28,8 +26,6 @@ public class MapService {
          * if this date is present - we add to this date new expense
          * if this date is absent - we add new date with expense
          */
-
-        currencyEur = currencyEur + ApiService.convertCurrencyToEur(expense.getPrice(), expense.getCurrency());
 
         for (Map.Entry<String, ArrayList<Expense>> entry : map.entrySet()) {
             if (entry.getKey().equals(expense.getDate())) {

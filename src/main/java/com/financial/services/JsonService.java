@@ -4,10 +4,8 @@ import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.financial.expense.Expense;
-
 
 import java.io.File;
 import java.io.IOException;
@@ -17,8 +15,10 @@ import java.util.TreeMap;
 
 public class JsonService {
 
+ //   private double currencyEur = Menu.mapService.currencyEur;
+
     public static final String LINK = "src/main/resources/list.json";   // path, where will be stored list.json
-    public static Map<String, ArrayList<Expense>> map;
+    static Map<String, ArrayList<Expense>> map;
 
     public JsonService() throws IOException {
         map = new TreeMap<>();
@@ -37,19 +37,15 @@ public class JsonService {
         ObjectMapper mapper = new ObjectMapper();
         try {
             mapper.writeValue(jsonGenerator, data);
-        } catch (JsonMappingException e) {
-            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static Map readJson() {
+    private static Map readJson() {
         ObjectMapper mapper = new ObjectMapper();
         try {
             map = mapper.readValue(new File(LINK), new TypeReference<Map<String,ArrayList<Expense>>>(){});
-        } catch (JsonMappingException e) {
-            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }

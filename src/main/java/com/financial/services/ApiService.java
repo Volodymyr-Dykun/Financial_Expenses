@@ -21,7 +21,6 @@ public class ApiService {
     private static URL buildUrl() throws URISyntaxException, MalformedURLException {
         String link = LINK + "?" + "access_key=" + KEY;
         URIBuilder b = new URIBuilder(link);
-        System.out.println(link);
         return b.build().toURL();
     }
 

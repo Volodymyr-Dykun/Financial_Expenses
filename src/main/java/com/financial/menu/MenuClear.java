@@ -1,6 +1,5 @@
 package com.financial.menu;
 
-import com.financial.services.ApiService;
 import com.financial.expense.Expense;
 
 import java.util.ArrayList;
@@ -11,7 +10,7 @@ public class MenuClear {
 //    private CurrencyService currencyService = new CurrencyService();
 
     private Map<String, ArrayList<Expense>> map = Menu.mapService.map;
-    private double currencyEur = Menu.mapService.currencyEur;
+
 
 
     public void menuClear(String[] arr) {
@@ -35,7 +34,6 @@ public class MenuClear {
             if (entry.getKey().equals(date)) {
                 a++;
                 for (int i = 0; i < entry.getValue().size(); i++) {
-                    currencyEur = currencyEur - ApiService.convertCurrencyToEur(entry.getValue().get(i).getPrice(), entry.getValue().get(i).getCurrency());
                 }
                 map.remove(date);
 
