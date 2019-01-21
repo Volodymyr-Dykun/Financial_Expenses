@@ -1,4 +1,4 @@
-package com.financial;
+package com.financial.services;
 
 import org.apache.http.client.utils.URIBuilder;
 import org.json.simple.JSONObject;
@@ -12,11 +12,18 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Map;
 
-public class ApiUtils {
+public class ApiService {
 
     private static final String LINK = "http://data.fixer.io/api/latest";
     private static final String KEY = "d811952d23c06d8d5634689d3ebeb2f9";
     public static final String LOCAL_CURRENCY = "EUR";
+
+    private static URL buildUrl() throws URISyntaxException, MalformedURLException {
+        String link = LINK + "?" + "access_key=" + KEY;
+        URIBuilder b = new URIBuilder(link);
+        System.out.println(link);
+        return b.build().toURL();
+    }
 
     private static String parseUrl(URL url) {
         if (url == null) {
@@ -53,12 +60,6 @@ public class ApiUtils {
         } catch (URISyntaxException e) {
             return null;
         }
-    }
-
-    private static URL buildUrl() throws URISyntaxException, MalformedURLException {
-        String link = LINK + "?" + "access_key=" + KEY;
-        URIBuilder b = new URIBuilder(link);
-        return b.build().toURL();
     }
 
     public static Double convertCurrencyToEur(Double price, String currency) {
