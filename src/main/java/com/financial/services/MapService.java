@@ -3,13 +3,12 @@ package com.financial.services;
 import com.financial.expense.Expense;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Map;
 
 public class MapService {
 
-    public Map<LocalDate, ArrayList<Expense>> map;
+    public static Map<String, ArrayList<Expense>> map;
     private JsonService jsonService;
     public double currencyEur;
 
@@ -32,7 +31,7 @@ public class MapService {
 
         currencyEur = currencyEur + ApiService.convertCurrencyToEur(expense.getPrice(), expense.getCurrency());
 
-        for (Map.Entry<LocalDate, ArrayList<Expense>> entry : map.entrySet()) {
+        for (Map.Entry<String, ArrayList<Expense>> entry : map.entrySet()) {
             if (entry.getKey().equals(expense.getDate())) {
                 map.get(expense.getDate()).add(expense);
                 printMap();
@@ -53,7 +52,7 @@ public class MapService {
 
     public void printMap() {
 
-        for (Map.Entry<LocalDate, ArrayList<Expense>> entry : map.entrySet()) {
+        for (Map.Entry<String, ArrayList<Expense>> entry : map.entrySet()) {
             System.out.println(entry.getKey());
             printList(entry.getValue());
 

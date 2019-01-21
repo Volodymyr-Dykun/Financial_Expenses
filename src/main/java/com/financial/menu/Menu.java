@@ -1,7 +1,6 @@
 package com.financial.menu;
 
 import com.financial.services.CurrencyService;
-import com.financial.services.DateService;
 import com.financial.services.MapService;
 
 import java.io.BufferedReader;
@@ -17,7 +16,6 @@ public class Menu {
     private static final String CASE_EXIT = "exit";
 
     public static CurrencyService currencyService = new CurrencyService();
-    public static DateService dateService = new DateService();
     public static MapService mapService = new MapService();
 
 

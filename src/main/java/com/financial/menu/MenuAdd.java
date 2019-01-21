@@ -12,7 +12,7 @@ public class MenuAdd {
         }
 
         Expense expense = new Expense();
-        expense.setDate(Menu.dateService.checkDate(arr[1]));
+        expense.setDate(arr[1]);
         System.out.println(expense.getDate());
         expense.setPrice(Double.parseDouble(arr[2]));
         expense.setCurrency(Menu.currencyService.checkCurrency(arr[3].toUpperCase()));

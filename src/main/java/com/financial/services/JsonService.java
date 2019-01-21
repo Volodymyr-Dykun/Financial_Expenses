@@ -3,6 +3,7 @@ package com.financial.services;
 import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.financial.expense.Expense;
@@ -10,7 +11,6 @@ import com.financial.expense.Expense;
 
 import java.io.File;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
@@ -18,13 +18,13 @@ import java.util.TreeMap;
 public class JsonService {
 
     public static final String LINK = "src/main/resources/list.json";   // path, where will be stored list.json
-    public static Map<LocalDate, ArrayList<Expense>> map;
+    public static Map<String, ArrayList<Expense>> map;
 
     public JsonService() throws IOException {
         map = new TreeMap<>();
         File file = new File(LINK);
         if (!file.exists() || file.isDirectory()) {
-            Map<LocalDate, ArrayList<Expense>> map = new TreeMap();
+            Map<String , ArrayList<Expense>> map = new TreeMap();
             writeJson(LINK,map);
         } else {
             map = readJson();
@@ -47,7 +47,7 @@ public class JsonService {
     public static Map readJson() {
         ObjectMapper mapper = new ObjectMapper();
         try {
-            map = mapper.readValue(new File(LINK), Map.class);
+            map = mapper.readValue(new File(LINK), new TypeReference<Map<String,ArrayList<Expense>>>(){});
         } catch (JsonMappingException e) {
             e.printStackTrace();
         } catch (Exception e) {

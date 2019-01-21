@@ -4,13 +4,12 @@ import com.financial.services.ApiService;
 import com.financial.expense.Expense;
 
 import java.text.DecimalFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Map;
 
 public class MenuTotal {
 
-    private Map<LocalDate, ArrayList<Expense>> map = Menu.mapService.map;
+    private Map<String, ArrayList<Expense>> map = Menu.mapService.map;
     private double currencyEur = Menu.mapService.currencyEur;
     private MenuCheck menuCheck = new MenuCheck();
 
@@ -31,6 +30,8 @@ public class MenuTotal {
                 if (!currency.equals(ApiService.LOCAL_CURRENCY)) {
                     coef = ApiService.parseCurrentApiJson(currency);
                 } else coef = 1.0;
+
+                System.out.println(coef);
 
                 Double total = currencyEur * coef;
                 String formattedTotal = new DecimalFormat("#0.00").format(total);
