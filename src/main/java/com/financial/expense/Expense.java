@@ -1,10 +1,8 @@
-package com.financial;
-
-import java.time.LocalDate;
+package com.financial.expense;
 
 public class Expense {
 
-    private LocalDate date;
+    private String date;
     private String name;
     private Double price;
     private String currency;
@@ -13,7 +11,7 @@ public class Expense {
     }
 
     public Expense(String date, Double price, String currency, String name) {
-        this.date = LocalDate.parse(date);
+        this.date = date;
         this.price = price;
         this.currency = currency;
         this.name = name;
@@ -27,11 +25,11 @@ public class Expense {
         this.currency = currency;
     }
 
-    public LocalDate getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
