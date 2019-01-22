@@ -1,14 +1,15 @@
-package com.financial.menu.command;
+package com.financial.menu.commands;
 
+import com.financial.menu.commands.abstractCommands.CommandAbs;
 import com.financial.services.JsonService;
 import com.financial.services.MapService;
 
 import java.io.IOException;
 
-public class CommandExit implements Command{
+public class CommandExit extends CommandAbs {
 
-    public CommandExit(String[] command){
-        execute(command);
+    public CommandExit() {
+        name = "exit";
     }
 
     public void execute(String[] command) {

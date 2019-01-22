@@ -22,10 +22,9 @@ public enum CommandEnum {
          this.name = name;
      }
 
-    public static CommandEnum showSubject(String str) {
-        CommandEnum[] values = CommandEnum.values();
+    public static CommandEnum findCommand(String str) {
 
-        for (CommandEnum value : values) {
+        for (CommandEnum value : CommandEnum.values()) {
             if (value.getName().equals(str)) {
                 return value;
             }

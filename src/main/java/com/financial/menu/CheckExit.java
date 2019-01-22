@@ -1,6 +1,6 @@
 package com.financial.menu;
 
-import com.financial.menu.command.CommandExit;
+import com.financial.menu.commands.CommandExit;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -30,7 +30,7 @@ public class CheckExit {
                     new Menu();
                     break;
                 case "N":
-                   new CommandExit(null);
+                   new CommandExit();
                     break;
                 default:
                     System.out.println("You have entered the wrong answer, try again.");

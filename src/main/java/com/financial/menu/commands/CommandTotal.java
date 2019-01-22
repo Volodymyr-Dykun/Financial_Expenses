@@ -1,7 +1,8 @@
-package com.financial.menu.command;
+package com.financial.menu.commands;
 
 import com.financial.menu.CheckExit;
 import com.financial.menu.Menu;
+import com.financial.menu.commands.abstractCommands.CommandAbs;
 import com.financial.services.DataFixerService;
 import com.financial.expense.Expense;
 
@@ -9,16 +10,13 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class CommandTotal implements Command{
+public class CommandTotal extends CommandAbs {
 
-    public CommandTotal(String[] command) {
-        execute(command);
+    public CommandTotal() {
+        name = "total";
     }
 
     private Map<String, ArrayList<Expense>> map = Menu.mapService.map;
-
-
-
 
     public void execute(String[] arr) {
         try {

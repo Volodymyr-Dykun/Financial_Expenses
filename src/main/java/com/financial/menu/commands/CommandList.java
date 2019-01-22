@@ -1,18 +1,18 @@
-package com.financial.menu.command;
+package com.financial.menu.commands;
 
 import com.financial.menu.CheckExit;
 import com.financial.menu.Menu;
+import com.financial.menu.commands.abstractCommands.CommandAbs;
 
-public class CommandList implements Command{
+public class CommandList extends CommandAbs {
 
-    public CommandList(String[] command){
-        execute(command);
-        new CheckExit();
+    public CommandList() {
+        name = "list";
     }
 
     public void execute(String[] arr) {
         /*
-         * command "list" should consist of one word, so we check this and print list expense
+         * commands "list" should consist of one word, so we check this and print list expense
          * map must have one or more date
          */
 
@@ -21,6 +21,8 @@ public class CommandList implements Command{
             System.out.println();
         }
         list(arr);
+
+        new CheckExit();
     }
 
 
@@ -34,7 +36,7 @@ public class CommandList implements Command{
             }
 
         } else {
-            System.out.println("The command \"List\" should contain only one word, please, try again!!");
+            System.out.println("The commands \"List\" should contain only one word, please, try again!!");
         }
     }
 }

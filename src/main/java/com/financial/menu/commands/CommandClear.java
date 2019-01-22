@@ -1,21 +1,20 @@
-package com.financial.menu.command;
+package com.financial.menu.commands;
 
 import com.financial.expense.Expense;
 import com.financial.menu.CheckExit;
 import com.financial.menu.Menu;
+import com.financial.menu.commands.abstractCommands.CommandAbs;
 
 import java.util.ArrayList;
 import java.util.Map;
 
-public class CommandClear implements Command {
+public class CommandClear extends CommandAbs {
 
-    public CommandClear(String[] command){
-        execute(command);
+    public CommandClear () {
+        name = "clear";
     }
 
     private Map<String, ArrayList<Expense>> map = Menu.mapService.map;
-
-
 
     public void execute(String[] arr) {
         clear(arr[1]);
