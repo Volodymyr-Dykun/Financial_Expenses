@@ -1,10 +1,18 @@
-package com.financial.menu;
+package com.financial.menu.command;
 
 import com.financial.expense.Expense;
+import com.financial.menu.CheckExit;
+import com.financial.menu.Menu;
 
-public class MenuAdd {
+public class CommandAdd implements Command{
 
-    public void menuAdd(String[] arr) {
+    public CommandAdd(String[] command) {
+        execute(command);
+        new CheckExit().check();
+    }
+
+
+    public void execute(String[] arr) {
         // check length array (must be 5 or more)
         if (arr.length < 5) {
             System.out.println("You entered the command incorrectly,  try again!!");

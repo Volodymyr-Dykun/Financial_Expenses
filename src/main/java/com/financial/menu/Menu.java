@@ -1,5 +1,6 @@
 package com.financial.menu;
 
+import com.financial.menu.command.*;
 import com.financial.services.CurrencyService;
 import com.financial.services.MapService;
 
@@ -9,20 +10,29 @@ import java.io.InputStreamReader;
 
 public class Menu {
 
+    public static CurrencyService currencyService;
+    public static MapService mapService;
+
+
     private static final String CASE_ADD = "add";
     private static final String CASE_LIST = "list";
     private static final String CASE_CLEAR = "clear";
     private static final String CASE_TOTAL = "total";
     private static final String CASE_EXIT = "exit";
 
-    public static CurrencyService currencyService = new CurrencyService();
-    public static MapService mapService = new MapService();
+    public Menu() {
+        mapService = new MapService();
+        currencyService = new CurrencyService();
+        printMenuStart();
+    }
+
+
+
 
 
     public void printMenuStart() {
         System.out.println("Enter the command:");
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        MenuCheck check = new MenuCheck();
         try {
          /*
          we break the entered string to pull out the command and the date
@@ -37,31 +47,21 @@ public class Menu {
             String[] arr = insert.split(" ");
 
 
-
             switch (arr[0]) {
                 case CASE_ADD:
-                 MenuAdd menuAdd = new MenuAdd();
-                    menuAdd.menuAdd(arr);
-                    check.check();
+                    new CommandAdd(arr);
                     break;
                 case CASE_LIST:
-                    MenuList menuList = new MenuList();
-                    menuList.menuList(arr);
-                    check.check();
+                    new CommandList(arr);
                     break;
                 case CASE_CLEAR:
-                    MenuClear menuClear = new MenuClear();
-                    menuClear.menuClear(arr);
-                    check.check();
+                    new CommandClear(arr);
                     break;
                 case CASE_TOTAL:
-                    MenuTotal menuTotal = new MenuTotal();
-                    menuTotal.menuTotal(arr);
-                    check.check();
+                   new CommandTotal(arr);
                     break;
                 case CASE_EXIT:
-                    MenuExit menuExit = new MenuExit();
-                    menuExit.exit();
+                    new CommandExit(arr);
                     break;
                 default:
                     System.out.println("There is no such command, please, try again!!");

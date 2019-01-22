@@ -1,25 +1,32 @@
-package com.financial.menu;
+package com.financial.menu.command;
 
-import com.financial.services.ApiService;
+import com.financial.menu.CheckExit;
+import com.financial.menu.Menu;
+import com.financial.services.DataFixerService;
 import com.financial.expense.Expense;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class MenuTotal {
+public class CommandTotal implements Command{
+
+    public CommandTotal(String[] command) {
+        execute(command);
+    }
 
     private Map<String, ArrayList<Expense>> map = Menu.mapService.map;
-    private MenuCheck menuCheck = new MenuCheck();
 
 
 
-    public void menuTotal(String[] arr) {
+
+    public void execute(String[] arr) {
         try {
             total(arr[1].toUpperCase());
+            new CheckExit();
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("You have not entered the currency, please, try again!! ");
-            menuCheck.check();
+            new CheckExit();
         }
     }
 
@@ -30,8 +37,8 @@ public class MenuTotal {
         for (Map.Entry<String, ArrayList<Expense>> entry : map.entrySet()) {
             for (Expense item : entry.getValue()) {
                 Double coef;
-                if (!item.getCurrency().equals(ApiService.LOCAL_CURRENCY)) {
-                    coef = ApiService.parseCurrentApiJson(item.getCurrency());
+                if (!item.getCurrency().equals(DataFixerService.LOCAL_CURRENCY)) {
+                    coef = DataFixerService.parseCurrentApiJson(item.getCurrency());
                 } else coef = 1.0;
 
                 eur=eur+item.getPrice()/coef;
@@ -48,8 +55,8 @@ public class MenuTotal {
         if (map.size() != 0) {
             try {
                 Double coef;
-                if (!currency.equals(ApiService.LOCAL_CURRENCY)) {
-                    coef = ApiService.parseCurrentApiJson(currency);
+                if (!currency.equals(DataFixerService.LOCAL_CURRENCY)) {
+                    coef = DataFixerService.parseCurrentApiJson(currency);
                 } else coef = 1.0;
 
                 Double total = calculateCurrencyEur(map) * coef;
@@ -57,12 +64,12 @@ public class MenuTotal {
                 System.out.println(formattedTotal + " " + currency);
             } catch (NullPointerException e) {
                 System.out.println("No currency with this name was found, please, try again!!");
-                menuCheck.check();
+                new CheckExit();
             }
         } else {
             System.out.println("Expense list is empty!");
             System.out.println("Add Expenses first");
-            menuCheck.check();
+            new CheckExit();
         }
 
     }

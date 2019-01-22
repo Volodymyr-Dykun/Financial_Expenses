@@ -1,10 +1,16 @@
-package com.financial.menu;
+package com.financial.menu.command;
 
-public class MenuList {
+import com.financial.menu.CheckExit;
+import com.financial.menu.Menu;
 
-    MenuCheck menuCheck = new MenuCheck();
+public class CommandList implements Command{
 
-    public void menuList(String[] arr) {
+    public CommandList(String[] command){
+        execute(command);
+        new CheckExit();
+    }
+
+    public void execute(String[] arr) {
         /*
          * command "list" should consist of one word, so we check this and print list expense
          * map must have one or more date
@@ -13,7 +19,6 @@ public class MenuList {
         if (Menu.mapService.map.size() == 0) {
             System.out.println("You don't have any more expenses!");
             System.out.println();
-            menuCheck.check();
         }
         list(arr);
     }
@@ -26,12 +31,10 @@ public class MenuList {
             } else {
                 System.out.println("Expense list is empty!");
                 System.out.println("Add Expenses first");
-                menuCheck.check();
             }
 
         } else {
             System.out.println("The command \"List\" should contain only one word, please, try again!!");
-            menuCheck.check();
         }
     }
 }

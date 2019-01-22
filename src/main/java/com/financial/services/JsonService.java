@@ -15,7 +15,6 @@ import java.util.TreeMap;
 
 public class JsonService {
 
- //   private double currencyEur = Menu.mapService.currencyEur;
 
     public static final String LINK = "src/main/resources/list.json";   // path, where will be stored list.json
     static Map<String, ArrayList<Expense>> map;

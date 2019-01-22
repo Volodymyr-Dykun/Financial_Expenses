@@ -1,19 +1,23 @@
-package com.financial.menu;
+package com.financial.menu.command;
 
 import com.financial.expense.Expense;
+import com.financial.menu.CheckExit;
+import com.financial.menu.Menu;
 
 import java.util.ArrayList;
 import java.util.Map;
 
-public class MenuClear {
+public class CommandClear implements Command {
 
-//    private CurrencyService currencyService = new CurrencyService();
+    public CommandClear(String[] command){
+        execute(command);
+    }
 
     private Map<String, ArrayList<Expense>> map = Menu.mapService.map;
 
 
 
-    public void menuClear(String[] arr) {
+    public void execute(String[] arr) {
         clear(arr[1]);
     }
 
@@ -21,12 +25,11 @@ public class MenuClear {
 
     private void clear(String date) {
 
-        MenuCheck menuCheck = new MenuCheck();
         // if you have not entered more expenses
         if (map.size() == 0) {
             System.out.println("You don't have any more expenses!");
             System.out.println();
-            menuCheck.check();
+            new CheckExit();
         }
         int a = 0;
         // if you have entered at least one expense
@@ -46,7 +49,7 @@ public class MenuClear {
 
             if (a == 0) {
                 System.out.println(date + " is absent in map, try clear other date!");
-                menuCheck.check();
+                new CheckExit();
             }
         }
     }

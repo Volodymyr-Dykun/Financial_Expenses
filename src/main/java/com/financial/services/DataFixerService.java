@@ -12,7 +12,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Map;
 
-public class ApiService {
+public class DataFixerService {
 
     private static final String LINK = "http://data.fixer.io/api/latest";
     private static final String KEY = "d811952d23c06d8d5634689d3ebeb2f9";

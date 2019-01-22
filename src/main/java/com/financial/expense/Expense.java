@@ -4,13 +4,13 @@ public class Expense {
 
     private String date;
     private String name;
-    private Double price;
+    private double price;
     private String currency;
 
     public Expense() {
     }
 
-    public Expense(String date, Double price, String currency, String name) {
+    public Expense(String date, double price, String currency, String name) {
         this.date = date;
         this.price = price;
         this.currency = currency;
@@ -41,11 +41,11 @@ public class Expense {
         this.name = name;
     }
 
-    public Double getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 }

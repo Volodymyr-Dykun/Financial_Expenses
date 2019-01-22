@@ -1,15 +1,20 @@
 package com.financial.menu;
 
+import com.financial.menu.command.CommandExit;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class MenuCheck {
+public class CheckExit {
 
-    private Menu menu = new Menu();
+    public CheckExit(){
+        check();
+    }
+
 
     // The method checks if you want to leave or stay
-    public void check() {
+    public static void check() {
         System.out.println("Want to continue?");
         System.out.println("YES - enter \"Y\"");
         System.out.println("NO - enter \"N\"");
@@ -22,11 +27,10 @@ public class MenuCheck {
             String insert = reader.readLine();
             switch (insert.toUpperCase()) {
                 case "Y":
-                    menu.printMenuStart();
+                    new Menu();
                     break;
                 case "N":
-                    MenuExit menuExit = new MenuExit();
-                    menuExit.exit();
+                   new CommandExit(null);
                     break;
                 default:
                     System.out.println("You have entered the wrong answer, try again.");
