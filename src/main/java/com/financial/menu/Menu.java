@@ -1,5 +1,6 @@
 package com.financial.menu;
 
+import com.financial.enumPackage.CommandEnum;
 import com.financial.menu.command.*;
 import com.financial.services.CurrencyService;
 import com.financial.services.MapService;
@@ -13,12 +14,12 @@ public class Menu {
     public static CurrencyService currencyService;
     public static MapService mapService;
 
-
-    private static final String CASE_ADD = "add";
-    private static final String CASE_LIST = "list";
-    private static final String CASE_CLEAR = "clear";
-    private static final String CASE_TOTAL = "total";
-    private static final String CASE_EXIT = "exit";
+//
+//    private static final String CASE_ADD = "add";
+//    private static final String CASE_LIST = "list";
+//    private static final String CASE_CLEAR = "clear";
+//    private static final String CASE_TOTAL = "total";
+//    private static final String CASE_EXIT = "exit";
 
     public Menu() {
         mapService = new MapService();
@@ -46,8 +47,7 @@ public class Menu {
             String insert = reader.readLine();
             String[] arr = insert.split(" ");
 
-
-            switch (arr[0]) {
+            switch (CommandEnum.showSubject(arr[0])) {
                 case CASE_ADD:
                     new CommandAdd(arr);
                     break;
