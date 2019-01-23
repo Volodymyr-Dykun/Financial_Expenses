@@ -4,11 +4,12 @@ import com.financial.expense.Expense;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Map;
 
 public class MapService {
 
-    public static Map<String, ArrayList<Expense>> map;
+    public static Map<Date, ArrayList<Expense>> map;
     private JsonService jsonService;
 
     public MapService()  {
@@ -27,7 +28,7 @@ public class MapService {
          * if this date is absent - we add new date with expense
          */
 
-        for (Map.Entry<String, ArrayList<Expense>> entry : map.entrySet()) {
+        for (Map.Entry<Date, ArrayList<Expense>> entry : map.entrySet()) {
             if (entry.getKey().equals(expense.getDate())) {
                 map.get(expense.getDate()).add(expense);
                 printMap();
@@ -48,7 +49,7 @@ public class MapService {
 
     public void printMap() {
 
-        for (Map.Entry<String, ArrayList<Expense>> entry : map.entrySet()) {
+        for (Map.Entry<Date, ArrayList<Expense>> entry : map.entrySet()) {
             System.out.println(entry.getKey());
             printList(entry.getValue());
 

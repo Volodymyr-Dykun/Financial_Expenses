@@ -4,6 +4,11 @@ import com.financial.expense.Expense;
 import com.financial.menu.CheckExit;
 import com.financial.menu.Menu;
 import com.financial.menu.commands.abstractCommands.CommandAbs;
+import com.financial.services.DateService;
+import com.financial.services.JsonService;
+
+import java.io.IOException;
+import java.util.Map;
 
 public class CommandAdd extends CommandAbs {
 
@@ -21,9 +26,9 @@ public class CommandAdd extends CommandAbs {
         }
 
         Expense expense = new Expense();
-        expense.setDate(arr[1]);
+        expense.setDate(DateService.dateTest(arr[1]));
         expense.setPrice(Double.parseDouble(arr[2]));
-        expense.setCurrency(Menu.currencyService.checkCurrency(arr[3].toUpperCase()));
+        expense.setCurrency(currencyService.checkCurrency(arr[3].toUpperCase()));
 
         // add all words after commandAbsList[3] in name
         String name = arr[4];
@@ -31,7 +36,12 @@ public class CommandAdd extends CommandAbs {
             name = name + " " + arr[i];
         }
         expense.setName(name);
-        Menu.mapService.add(expense);
+        mapService.add(expense);
+        try {
+            JsonService.writeJson(JsonService.LINK,  mapService.map);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         new CheckExit();
     }
 }

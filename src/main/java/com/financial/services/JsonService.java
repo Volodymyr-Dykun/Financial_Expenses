@@ -10,6 +10,7 @@ import com.financial.expense.Expense;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -17,13 +18,13 @@ public class JsonService {
 
 
     public static final String LINK = "src/main/resources/list.json";   // path, where will be stored list.json
-    static Map<String, ArrayList<Expense>> map;
+    static Map<Date, ArrayList<Expense>> map;
 
     public JsonService() throws IOException {
         map = new TreeMap<>();
         File file = new File(LINK);
         if (!file.exists() || file.isDirectory()) {
-            Map<String , ArrayList<Expense>> map = new TreeMap();
+            Map<Date , ArrayList<Expense>> map = new TreeMap();
             writeJson(LINK,map);
         } else {
             map = readJson();
@@ -44,7 +45,7 @@ public class JsonService {
     private static Map readJson() {
         ObjectMapper mapper = new ObjectMapper();
         try {
-            map = mapper.readValue(new File(LINK), new TypeReference<Map<String,ArrayList<Expense>>>(){});
+            map = mapper.readValue(new File(LINK), new TypeReference<Map<Date,ArrayList<Expense>>>(){});
         } catch (Exception e) {
             e.printStackTrace();
         }

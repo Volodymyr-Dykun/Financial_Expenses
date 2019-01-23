@@ -8,6 +8,8 @@ import com.financial.expense.Expense;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Deque;
 import java.util.Map;
 
 public class CommandTotal extends CommandAbs {
@@ -16,7 +18,7 @@ public class CommandTotal extends CommandAbs {
         name = "total";
     }
 
-    private Map<String, ArrayList<Expense>> map = Menu.mapService.map;
+    private Map<Date, ArrayList<Expense>> map = mapService.map;
 
     public void execute(String[] arr) {
         try {
@@ -28,11 +30,11 @@ public class CommandTotal extends CommandAbs {
         }
     }
 
-    public double calculateCurrencyEur(Map<String, ArrayList<Expense>> map) {
+    public double calculateCurrencyEur(Map<Date, ArrayList<Expense>> map) {
 
         double eur=0.0;
 
-        for (Map.Entry<String, ArrayList<Expense>> entry : map.entrySet()) {
+        for (Map.Entry<Date, ArrayList<Expense>> entry : map.entrySet()) {
             for (Expense item : entry.getValue()) {
                 Double coef;
                 if (!item.getCurrency().equals(DataFixerService.LOCAL_CURRENCY)) {

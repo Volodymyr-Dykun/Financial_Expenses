@@ -1,8 +1,10 @@
 package com.financial.expense;
 
+import java.util.Date;
+
 public class Expense {
 
-    private String date;
+    private Date date;
     private String name;
     private double price;
     private String currency;
@@ -10,12 +12,6 @@ public class Expense {
     public Expense() {
     }
 
-    public Expense(String date, double price, String currency, String name) {
-        this.date = date;
-        this.price = price;
-        this.currency = currency;
-        this.name = name;
-    }
 
     public String getCurrency() {
         return currency;
@@ -25,11 +21,11 @@ public class Expense {
         this.currency = currency;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 

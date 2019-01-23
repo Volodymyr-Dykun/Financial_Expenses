@@ -3,6 +3,7 @@ package com.financial.services;
 import org.apache.http.client.utils.URIBuilder;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
+import org.json.simple.parser.ParseException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,7 +19,7 @@ public class DataFixerService {
     private static final String KEY = "d811952d23c06d8d5634689d3ebeb2f9";
     public static final String LOCAL_CURRENCY = "EUR";
 
-    private static URL buildUrl() throws URISyntaxException, MalformedURLException {
+    public static URL buildUrl() throws URISyntaxException, MalformedURLException {
         String link = LINK + "?" + "access_key=" + KEY;
         URIBuilder b = new URIBuilder(link);
         return b.build().toURL();
@@ -71,5 +72,24 @@ public class DataFixerService {
             coef = parseCurrentApiJson(currency);
         } else coef = 1.0;
         return price / coef;
+    }
+    
+    public void printMapRates() {
+        JSONObject ApiJsonObject = null;
+        try {
+            ApiJsonObject = (JSONObject) JSONValue.parseWithException(parseUrl(buildUrl()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        Map currencyMap = (Map) ApiJsonObject.get("rates");
+
+        System.out.println(currencyMap.size());
+        System.out.println(currencyMap.keySet());
+
+
     }
 }
