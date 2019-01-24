@@ -64,7 +64,7 @@ public class DataFixerService {
 
     public static Double convertCurrencyToEur(Double price, String currency) {
         /* this API can not convert USD to PLN (or any other currency)
-         * so, we convert all currency to EUR and add to currencyEur
+         * so, we convert all currency to EUR and addToMap to currencyEur
          * coefficient we get with API
          */
         Double coef;
@@ -73,7 +73,7 @@ public class DataFixerService {
         } else coef = 1.0;
         return price / coef;
     }
-    
+
     public void printMapRates() {
         JSONObject ApiJsonObject = null;
         try {

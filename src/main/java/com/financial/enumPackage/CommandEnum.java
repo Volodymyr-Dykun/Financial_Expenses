@@ -1,7 +1,7 @@
 package com.financial.enumPackage;
 
 public enum CommandEnum {
-    CASE_ADD ("add"),
+    CASE_ADD ("addToMap"),
     CASE_LIST ("list"),
     CASE_CLEAR ("clear"),
     CASE_TOTAL ("total"),

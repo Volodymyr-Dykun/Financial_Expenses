@@ -8,7 +8,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.financial.expense.Expense;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
@@ -17,37 +16,40 @@ import java.util.TreeMap;
 public class JsonService {
 
 
-    public static final String LINK = "src/main/resources/list.json";   // path, where will be stored list.json
-    static Map<Date, ArrayList<Expense>> map;
+    public String LINK = "src/main/resources/"+"list.json";   // path, where will be stored list.json
 
-    public JsonService() throws IOException {
-        map = new TreeMap<>();
+    public JsonService() {
+        Map<Date, ArrayList<Expense>> map;
         File file = new File(LINK);
         if (!file.exists() || file.isDirectory()) {
-            Map<Date , ArrayList<Expense>> map = new TreeMap();
-            writeJson(LINK,map);
-        } else {
-            map = readJson();
+            map = new TreeMap();
+            writeJson(map);
         }
+//        else{
+//            map = readJson();
+//        }
     }
 
-    public static void writeJson(String link, Map data) throws IOException {
-        JsonFactory jfactory = new JsonFactory();
-        JsonGenerator jsonGenerator = jfactory.createGenerator(new File(link), JsonEncoding.UTF8);
-        ObjectMapper mapper = new ObjectMapper();
+    public void writeJson(Map<Date, ArrayList<Expense>> map) {
+
         try {
-            mapper.writeValue(jsonGenerator, data);
+            JsonFactory jfactory = new JsonFactory();
+            JsonGenerator jsonGenerator = jfactory.createGenerator(new File(LINK), JsonEncoding.UTF8);
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.writeValue(jsonGenerator, map);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private static Map readJson() {
+    public Map readJson() {
+        Map map;
         ObjectMapper mapper = new ObjectMapper();
         try {
-            map = mapper.readValue(new File(LINK), new TypeReference<Map<Date,ArrayList<Expense>>>(){});
+          map = mapper.readValue(new File(LINK), new TypeReference<Map<Date,ArrayList<Expense>>>(){});
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
         return map;
 

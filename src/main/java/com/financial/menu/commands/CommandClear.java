@@ -5,19 +5,24 @@ import com.financial.menu.CheckExit;
 import com.financial.menu.commands.abstractCommands.CommandAbs;
 import com.financial.services.DateService;
 import com.financial.services.JsonService;
+import com.financial.services.MapService;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
 
 public class CommandClear extends CommandAbs {
 
+    private Map<Date, ArrayList<Expense>> map;
+    private JsonService jsonService;
+    private MapService mapService;
+
     public CommandClear () {
         name = "clear";
+        mapService = new MapService();
+        jsonService = new JsonService();
+        map = jsonService.readJson();
     }
-
-    private Map<Date, ArrayList<Expense>> map = mapService.map;
 
     public void execute(String[] arr) {
 
@@ -27,12 +32,15 @@ public class CommandClear extends CommandAbs {
             System.out.println();
             new CheckExit();
         }
+
         int a = 0;
 
-        Date date = DateService.dateTest(arr[1]);
+        Date date = DateService.dateToDate(arr[1]);
 
         // if you have entered at least one expense
         for (Map.Entry<Date, ArrayList<Expense>> entry : map.entrySet()) {
+            System.out.println(date);
+            System.out.println(entry.getKey());
             if (entry.getKey().equals(date)) {
                 a++;
                 for (int i = 0; i < entry.getValue().size(); i++) {
@@ -41,11 +49,18 @@ public class CommandClear extends CommandAbs {
 
                 if (map.size()!=0) {
                     System.out.println("Map after remote:");
-                    mapService.printMap();
+                    mapService.printMap(map);
+
+                    jsonService.writeJson(map);
+
                     new CheckExit();
                 } else {
                     System.out.println("Map after deletion is empty");
-                    new CheckExit();}
+
+                    jsonService.writeJson(map);
+
+                    new CheckExit();
+                }
                 return;
             }
 
@@ -53,12 +68,6 @@ public class CommandClear extends CommandAbs {
                 System.out.println(arr[1] + " is absent in map, try clear other date!");
                 new CheckExit();
             }
-        }
-
-        try {
-            JsonService.writeJson(JsonService.LINK,  mapService.map);
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 

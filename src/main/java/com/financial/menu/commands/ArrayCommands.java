@@ -18,10 +18,10 @@ public class ArrayCommands {
 
    public ArrayCommands() {
         list = new CommandList();
-        total = new CommandTotal();
         exit = new CommandExit();
         clear = new CommandClear();
         add = new CommandAdd();
+        total = new CommandTotal();
         commandAbsList.add(add);
         commandAbsList.add(clear);
         commandAbsList.add(exit);
@@ -41,7 +41,7 @@ public class ArrayCommands {
         if (count==0) {
             System.out.println("The command not found");
             System.out.println();
-            CheckExit.check();
+            new CheckExit();
         }
     }
 }

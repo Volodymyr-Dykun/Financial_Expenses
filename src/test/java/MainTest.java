@@ -5,14 +5,14 @@ public class MainTest {
 //    public void testAddFalseDate() {
 //        Main main = new Main();
 //        Expense expense = new Expense("2015-02-29", 21d, "USD", "expense");
-//        main.add(expense);
+//        main.addToMap(expense);
 //    }
 //
 //    @Test(expected = NullPointerException.class)
 //    public void testAddFalseCurrency() {
 //        Main main = new Main();
 //        Expense expense = new Expense("2015-02-28", 21d, "SSS", "expense");
-//        main.add(expense);
+//        main.addToMap(expense);
 //    }
 //
 //    @Test

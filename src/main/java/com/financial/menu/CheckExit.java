@@ -14,7 +14,7 @@ public class CheckExit {
 
 
     // The method checks if you want to leave or stay
-    public static void check() {
+    public void check() {
         System.out.println("Want to continue?");
         System.out.println("YES - enter \"Y\"");
         System.out.println("NO - enter \"N\"");
@@ -28,14 +28,14 @@ public class CheckExit {
             switch (insert.toUpperCase()) {
                 case "Y":
                     new Menu();
-                    break;
+                    return;
                 case "N":
                    new CommandExit();
-                    break;
+                    return;
                 default:
                     System.out.println("You have entered the wrong answer, try again.");
                     check();
-                    break;
+                    return;
             }
         } catch (IOException e) {
             e.printStackTrace();

@@ -1,8 +1,6 @@
 package com.financial.menu;
 
 import com.financial.menu.commands.*;
-import com.financial.services.CurrencyService;
-import com.financial.services.MapService;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -6,7 +6,7 @@ import java.util.Date;
 
 public class DateService {
 
-    public static Date dateTest(String date) {
+    public static Date dateToDate(String date) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         try {
             return  format.parse(date);
@@ -14,5 +14,10 @@ public class DateService {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static String dateToString(Date date) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        return format.format(date);
     }
 }

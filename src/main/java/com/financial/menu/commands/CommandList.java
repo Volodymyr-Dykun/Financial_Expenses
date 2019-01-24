@@ -1,16 +1,28 @@
 package com.financial.menu.commands;
 
+import com.financial.expense.Expense;
 import com.financial.menu.CheckExit;
-import com.financial.menu.Menu;
+
 import com.financial.menu.commands.abstractCommands.CommandAbs;
 import com.financial.services.JsonService;
+import com.financial.services.MapService;
 
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Map;
 
 public class CommandList extends CommandAbs {
 
+    private Map<Date, ArrayList<Expense>> map;
+    private JsonService jsonService;
+    private MapService mapService;
+
+
     public CommandList() {
         name = "list";
+        mapService = new MapService();
+        jsonService = new JsonService();
+        map = jsonService.readJson();
     }
 
     public void execute(String[] arr) {
@@ -19,7 +31,7 @@ public class CommandList extends CommandAbs {
          * map must have one or more date
          */
 
-        if (mapService.map.size() == 0) {
+        if (map.size() == 0) {
             System.out.println("You don't have any more expenses!");
             System.out.println();
         }
@@ -31,8 +43,8 @@ public class CommandList extends CommandAbs {
 
     private void list(String[] arr) {
         if (arr.length == 1) {
-            if (mapService.map.size() != 0) {
-                mapService.printMap();
+            if (map.size() != 0) {
+                mapService.printMap(map);
             } else {
                 System.out.println("Expense list is empty!");
                 System.out.println("Add Expenses first");
